@@ -68,7 +68,7 @@ namespace Mvc_v1.Controllers
                 return RedirectToAction("Index");
             };
 
-            ViewBag.DepartmentId = new SelectList(unitOfWork.DepartmentRepository.GetAll<Department>(), "Id", "DepartmentName");
+            ViewBag.DepartmentId = new SelectList(unitOfWork.DepartmentRepository.GetAll<Department>(), "Id", "DepartmentName", employeeModel.DepartmentId);
             return View(employeeModel);
         }
 
