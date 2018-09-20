@@ -19,7 +19,7 @@ namespace Mvc_v1.Controllers
         // GET: Salaries
         public ActionResult Index()
         {
-            var salaries = unitOfWork.SalaryRepository.GetAll();
+            var salaries = unitOfWork.SalaryRepository.GetAll<Salary>();
             return View(salaries.ToList());
         }
 
@@ -30,7 +30,7 @@ namespace Mvc_v1.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            Salary salary = unitOfWork.SalaryRepository.GetById(id);
+            Salary salary = unitOfWork.SalaryRepository.GetById<Salary>(id);
             if (salary == null)
             {
                 return HttpNotFound();
@@ -41,7 +41,7 @@ namespace Mvc_v1.Controllers
         // GET: Salaries/Create
         public ActionResult Create()
         {
-            ViewBag.Id = new SelectList(unitOfWork.EmployeeRepository.GetAll(), "Id", "FirstName");
+            ViewBag.Id = new SelectList(unitOfWork.EmployeeRepository.GetAll<Salary>(), "Id", "FirstName");
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace Mvc_v1.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id = new SelectList(unitOfWork.EmployeeRepository.GetAll(), "Id", "FirstName");
+            ViewBag.Id = new SelectList(unitOfWork.EmployeeRepository.GetAll<Salary>(), "Id", "FirstName");
             return View(salary);
         }
 
@@ -70,12 +70,12 @@ namespace Mvc_v1.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            Salary salary = unitOfWork.SalaryRepository.GetById(id);
+            Salary salary = unitOfWork.SalaryRepository.GetById<Salary>(id);
             if (salary == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Id = new SelectList(unitOfWork.EmployeeRepository.GetAll(), "Id", "FirstName", salary.Id);
+            ViewBag.Id = new SelectList(unitOfWork.EmployeeRepository.GetAll<Salary>(), "Id", "FirstName", salary.Id);
             return View(salary);
         }
 
@@ -92,7 +92,7 @@ namespace Mvc_v1.Controllers
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id = new SelectList(unitOfWork.EmployeeRepository.GetAll(), "Id", "FirstName", salary.Id);
+            ViewBag.Id = new SelectList(unitOfWork.EmployeeRepository.GetAll<Salary>(), "Id", "FirstName", salary.Id);
             return View(salary);
         }
 
@@ -103,7 +103,7 @@ namespace Mvc_v1.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            Salary salary = unitOfWork.SalaryRepository.GetById(id);
+            Salary salary = unitOfWork.SalaryRepository.GetById<Salary>(id);
             if (salary == null)
             {
                 return HttpNotFound();
@@ -116,7 +116,7 @@ namespace Mvc_v1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Salary salary = unitOfWork.SalaryRepository.GetById(id);
+            Salary salary = unitOfWork.SalaryRepository.GetById<Salary>(id);
             unitOfWork.SalaryRepository.Delete(salary);
             unitOfWork.Save();
             return RedirectToAction("Index");

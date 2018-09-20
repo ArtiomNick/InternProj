@@ -19,7 +19,7 @@ namespace Mvc_v1.Controllers
         // GET: Event
         public ActionResult Index()
         {
-            var events = unitOfWork.EventRepository.GetAll();
+            var events = unitOfWork.EventRepository.GetAll<Event>();
             return View(events);
         }
 
@@ -30,7 +30,7 @@ namespace Mvc_v1.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            Event @event = unitOfWork.EventRepository.GetById(id);
+            Event @event = unitOfWork.EventRepository.GetById<Event>(id);
             if (@event == null)
             {
                 return HttpNotFound();
@@ -68,7 +68,7 @@ namespace Mvc_v1.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            Event @event = unitOfWork.EventRepository.GetById(id);
+            Event @event = unitOfWork.EventRepository.GetById<Event>(id);
             if (@event == null)
             {
                 return HttpNotFound();
@@ -99,7 +99,7 @@ namespace Mvc_v1.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            Event @event = unitOfWork.EventRepository.GetById(id);
+            Event @event = unitOfWork.EventRepository.GetById<Event>(id);
             if (@event == null)
             {
                 return HttpNotFound();
@@ -112,7 +112,7 @@ namespace Mvc_v1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Event @event = unitOfWork.EventRepository.GetById(id);
+            Event @event = unitOfWork.EventRepository.GetById<Event>(id);
             unitOfWork.EventRepository.Delete(@event);
             unitOfWork.Save();
             return RedirectToAction("Index");

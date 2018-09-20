@@ -6,91 +6,92 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Repository.Implementation;
 
 namespace Repository
 {
     public class UnitOfWork
     {
         private EmployeeManagementContext context = new EmployeeManagementContext();
-        private Repository<Department> departmentRepository;
-        private Repository<Employee> employeeRepository;
-        private Repository<Salary> salaryRepository;
-        private Repository<Shift> shiftRepository;
-        private Repository<Event> eventRepository;
-        private Repository<PersonalData> personalDataRepository;
+        private DepartmentRepository departmentRepository;
+        private EmployeeRepository employeeRepository;
+        private Implementation.Repository salaryRepository;
+        private Implementation.Repository shiftRepository;
+        private Implementation.Repository eventRepository;
+        private Implementation.Repository personalDataRepository;
 
 
-        public Repository<Department> DepartmentRepository
+        public DepartmentRepository DepartmentRepository
         {
             get
             {
                 if (this.departmentRepository == null)
                 {
-                    this.departmentRepository = new Repository<Department>(context);
+                    this.departmentRepository = new DepartmentRepository(context);
                 }
                 return departmentRepository;
             }
         }
 
-        public Repository<Employee> EmployeeRepository
+        public EmployeeRepository EmployeeRepository
         {
             get
             {
 
                 if (this.employeeRepository == null)
                 {
-                    this.employeeRepository = new Repository<Employee>(context);
+                    this.employeeRepository = new EmployeeRepository(context);
                 }
                 return employeeRepository;
             }
         }
-        public Repository<Shift> ShiftRepository
+        public Implementation.Repository ShiftRepository
         {
             get
             {
 
                 if (this.shiftRepository == null)
                 {
-                    this.shiftRepository = new Repository<Shift>(context);
+                    this.shiftRepository = new Implementation.Repository(context);
                 }
                 return shiftRepository;
             }
         }
 
-        public Repository<Salary> SalaryRepository
+        public Implementation.Repository SalaryRepository
         {
             get
             {
 
                 if (this.salaryRepository == null)
                 {
-                    this.salaryRepository = new Repository<Salary>(context);
+                    this.salaryRepository = new Implementation.Repository(context);
                 }
                 return salaryRepository;
             }
         }
 
-        public Repository<Event> EventRepository
+        public Implementation.Repository EventRepository
         {
             get
             {
 
                 if (this.eventRepository == null)
                 {
-                    this.eventRepository = new Repository<Event>(context);
+                    this.eventRepository = new Implementation.Repository(context);
                 }
                 return eventRepository;
             }
         }
 
-        public Repository<PersonalData> PersonalDataRepository
+        public Implementation.Repository PersonalDataRepository
         {
             get
             {
 
                 if (this.personalDataRepository == null)
                 {
-                    this.personalDataRepository = new Repository<PersonalData>(context);
+                    this.personalDataRepository = new Implementation.Repository(context);
                 }
                 return personalDataRepository;
             }

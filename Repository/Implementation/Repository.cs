@@ -10,36 +10,36 @@ using Repository.Interfaces;
 
 namespace Repository.Implementation
 {
-    public class Repository<T> : IRepository<T> where T : EntityBase
+    public class Repository : IRepository
     {
         //private EmployeeManagementContext context;
-        private EmployeeManagementContext context = new EmployeeManagementContext();
+        internal EmployeeManagementContext context = new EmployeeManagementContext();
         public Repository(EmployeeManagementContext context)
         {
             this.context = context;
         }
 
-        public IList<T> GetAll()
+        public IList<T> GetAll<T>() where T : EntityBase
         {
             return context.Set<T>().ToList();
         }
 
-        public void Create(T entity)
+        public void Create<T>(T entity) where T : EntityBase
         {
             var item = context.Set<T>().Add(entity);
         }
 
-        public void Delete(T entity)
+        public void Delete<T>(T entity) where T : EntityBase
         {
             context.Set<T>().Remove(entity);
         }
 
-        public T GetById(long id)
+        public T GetById<T>(long id) where T : EntityBase
         {
             return context.Set<T>().SingleOrDefault(e => e.Id == id);
         }
 
-        public void Update(T entity)
+        public void Update<T>(T entity) where T : EntityBase
         {
             context.Entry(entity).State = EntityState.Modified;
         }

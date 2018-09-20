@@ -17,12 +17,15 @@ namespace Mvc_v1
             // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService>();
-            container.RegisterType<IRepository<Employee>, Repository<Employee>>();
-            container.RegisterType<IRepository<Department>, Repository<Department>>();
-            container.RegisterType<IRepository<Shift>, Repository<Shift>>();
-            container.RegisterType<IRepository<Salary>, Repository<Salary>>();
-            container.RegisterType<IRepository<Event>, Repository<Event>>();
-            container.RegisterType<IRepository<PersonalData>, Repository<PersonalData>>();
+            //container.RegisterType<IRepository<Employee>, Repository<Employee>>();
+            //container.RegisterType<IRepository<Department>, Repository<Department>>();
+            //container.RegisterType<IRepository<Shift>, Repository<Shift>>();
+            //container.RegisterType<IRepository<Salary>, Repository<Salary>>();
+            //container.RegisterType<IRepository<Event>, Repository<Event>>();
+            //container.RegisterType<IRepository<PersonalData>, Repository<PersonalData>>();
+            container.RegisterType<IRepository, Repository.Implementation.Repository>();
+            container.RegisterType<IEmployeeRepository, EmployeeRepository>();
+            container.RegisterType<IDepartmentRepository, DepartmentRepository>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

@@ -19,8 +19,8 @@ namespace Mvc_v1.Controllers
         // GET: Department
         public ActionResult Index()
         {
-            var departments = unitOfWork.DepartmentRepository.GetAll();
-            return View(departments);
+            var departmentDtos = unitOfWork.DepartmentRepository.GetAllDepartments();
+            return View(departmentDtos);
         }
 
         // GET: Department/Details/5
@@ -31,7 +31,7 @@ namespace Mvc_v1.Controllers
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
 
-            Department department = unitOfWork.DepartmentRepository.GetById(id);
+            Department department = unitOfWork.DepartmentRepository.GetById<Department>(id);
             if (department == null)
             {
                 return HttpNotFound();
@@ -69,7 +69,7 @@ namespace Mvc_v1.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            Department department = unitOfWork.DepartmentRepository.GetById(id);
+            Department department = unitOfWork.DepartmentRepository.GetById<Department>(id);
             if (department == null)
             {
                 return HttpNotFound();
@@ -100,7 +100,7 @@ namespace Mvc_v1.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            Department department = unitOfWork.DepartmentRepository.GetById(id);
+            Department department = unitOfWork.DepartmentRepository.GetById<Department>(id);
             if (department == null)
             {
                 return HttpNotFound();
@@ -113,7 +113,7 @@ namespace Mvc_v1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Department department = unitOfWork.DepartmentRepository.GetById(id);
+            Department department = unitOfWork.DepartmentRepository.GetById<Department>(id);
             unitOfWork.DepartmentRepository.Delete(department);
             unitOfWork.Save();
             return RedirectToAction("Index");

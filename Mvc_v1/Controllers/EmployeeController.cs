@@ -23,8 +23,8 @@ namespace Mvc_v1.Controllers
             //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "FirstName_desc" : "";
             //ViewBag.DateSortParm = sortOrder == "DateOfEmployment" ? "DateOfEmployment_desc" : "DateOfEmployment";
 
-            var employees = unitOfWork.EmployeeRepository.GetAll();
-            return View(employees);
+            var employeeDtos = unitOfWork.EmployeeRepository.GetAllEmployees();
+            return View(employeeDtos);
         }
 
         // GET: Employee/Details/5
@@ -38,7 +38,7 @@ namespace Mvc_v1.Controllers
             }
             */
 
-            Employee employee = unitOfWork.EmployeeRepository.GetById(id);
+            Employee employee = unitOfWork.EmployeeRepository.GetById<Employee>(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -49,7 +49,7 @@ namespace Mvc_v1.Controllers
         // GET: Employee/Create
         public ActionResult Create()
         {
-            ViewBag.DepartmentId = new SelectList(unitOfWork.DepartmentRepository.GetAll(), "Id", "DepartmentName");
+            ViewBag.DepartmentId = new SelectList(unitOfWork.DepartmentRepository.GetAll<Department>(), "Id", "DepartmentName");
             return View();
         }
 
@@ -68,7 +68,7 @@ namespace Mvc_v1.Controllers
                 return RedirectToAction("Index");
             };
 
-            ViewBag.DepartmentId = new SelectList(unitOfWork.DepartmentRepository.GetAll(), "Id", "DepartmentName");
+            ViewBag.DepartmentId = new SelectList(unitOfWork.DepartmentRepository.GetAll<Department>(), "Id", "DepartmentName");
             return View(employeeModel);
         }
 
@@ -80,7 +80,7 @@ namespace Mvc_v1.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            var employee = unitOfWork.EmployeeRepository.GetById(id);
+            var employee = unitOfWork.EmployeeRepository.GetById<Employee>(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -92,7 +92,7 @@ namespace Mvc_v1.Controllers
                 Email = employee.Email,
                 DepartmentId = employee.DepartmentId };
 
-            ViewBag.DepartmentId = new SelectList(unitOfWork.DepartmentRepository.GetAll(), "Id", "DepartmentName", employee.DepartmentId);
+            ViewBag.DepartmentId = new SelectList(unitOfWork.DepartmentRepository.GetAll<Department>(), "Id", "DepartmentName", employee.DepartmentId);
             return View(employeeModel);
         }
 
@@ -105,7 +105,7 @@ namespace Mvc_v1.Controllers
         {
             if (ModelState.IsValid)
             {
-                var employee = unitOfWork.EmployeeRepository.GetById(employeeModel.Id);
+                var employee = unitOfWork.EmployeeRepository.GetById<Employee>(employeeModel.Id);
                 employee.FirstName = employeeModel.FirstName;
                 employee.LastName = employeeModel.LastName;
                 employee.Email = employeeModel.Email;
@@ -116,7 +116,7 @@ namespace Mvc_v1.Controllers
 
                 return RedirectToAction("Index");
             }
-            ViewBag.DepartmentId = new SelectList(unitOfWork.DepartmentRepository.GetAll(), "Id", "DepartmentName", employeeModel.DepartmentId);
+            ViewBag.DepartmentId = new SelectList(unitOfWork.DepartmentRepository.GetAll<Department>(), "Id", "DepartmentName", employeeModel.DepartmentId);
             return View(employeeModel);
         }
 
@@ -127,7 +127,7 @@ namespace Mvc_v1.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            Employee employee = unitOfWork.EmployeeRepository.GetById(id);
+            Employee employee = unitOfWork.EmployeeRepository.GetById<Employee>(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -140,7 +140,7 @@ namespace Mvc_v1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {
-            Employee employee = unitOfWork.EmployeeRepository.GetById(id);
+            Employee employee = unitOfWork.EmployeeRepository.GetById<Employee>(id);
             unitOfWork.EmployeeRepository.Delete(employee);
             unitOfWork.Save();
             return RedirectToAction("Index");
