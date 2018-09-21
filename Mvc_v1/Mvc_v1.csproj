@@ -225,6 +225,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\EmployeeGridController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -234,6 +235,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Expression.cs" />
+    <Compile Include="Helpers\GridExtension.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
@@ -333,6 +336,11 @@
     <Content Include="Views\Salary\Details.cshtml" />
     <Content Include="Views\Salary\Edit.cshtml" />
     <Content Include="Views\Salary\Index.cshtml" />
+    <Content Include="Views\EmployeeGrid\Create.cshtml" />
+    <Content Include="Views\EmployeeGrid\Delete.cshtml" />
+    <Content Include="Views\EmployeeGrid\Details.cshtml" />
+    <Content Include="Views\EmployeeGrid\Edit.cshtml" />
+    <Content Include="Views\EmployeeGrid\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
