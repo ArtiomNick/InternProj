@@ -1,4 +1,5 @@
-﻿using Domain.Dto;
+﻿using Domain;
+using Domain.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Repository.Interfaces
 {
     public interface IEmployeeRepository
     {
-        IList<EmployeeDto> GetAllEmployees();
+        IList<EmployeeDto> GetAllEmployees();       
     }
 }

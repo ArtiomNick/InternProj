@@ -4,6 +4,8 @@ using Unity.Mvc5;
 using Repository.Interfaces;
 using Domain;
 using Repository.Implementation;
+using Mvc_v1.Controllers;
+using Unity.Injection;
 
 namespace Mvc_v1
 {
@@ -23,9 +25,14 @@ namespace Mvc_v1
             //container.RegisterType<IRepository<Salary>, Repository<Salary>>();
             //container.RegisterType<IRepository<Event>, Repository<Event>>();
             //container.RegisterType<IRepository<PersonalData>, Repository<PersonalData>>();
-            container.RegisterType<IRepository, Repository.Implementation.Repository>();
+            container.RegisterType<IUnitOfWork, Repository.Implementation.Repository>();
             container.RegisterType<IEmployeeRepository, EmployeeRepository>();
             container.RegisterType<IDepartmentRepository, DepartmentRepository>();
+
+            container.RegisterType<AccountController>(new InjectionConstructor());
+            //container.RegisterType<RolesAdminController>(new InjectionConstructor());
+            container.RegisterType<ManageController>(new InjectionConstructor());
+            //container.RegisterType<UsersAdminController>(new InjectionConstructor());
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

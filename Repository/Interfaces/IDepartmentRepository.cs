@@ -7,7 +7,7 @@ using Domain.Dto;
 
 namespace Repository.Interfaces
 {
-    public interface IDepartmentRepository : IRepository
+    public interface IDepartmentRepository : IUnitOfWork
     {
         IList<DepartmentDto> GetAllDepartments();
     }

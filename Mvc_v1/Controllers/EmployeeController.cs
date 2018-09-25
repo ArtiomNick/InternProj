@@ -16,7 +16,11 @@ namespace Mvc_v1.Controllers
     public class EmployeeController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
+        //private readonly IEmployeeService service { get; set; }
+        public EmployeeController() //IEmployeeService
+        {
 
+        }
         // GET: Employee
         public ActionResult Index(/*string sortOrder*/)
         {
@@ -38,6 +42,7 @@ namespace Mvc_v1.Controllers
             }
             */
 
+            //service.GetById(id)
             Employee employee = unitOfWork.EmployeeRepository.GetById<Employee>(id);
             if (employee == null)
             {
@@ -105,6 +110,7 @@ namespace Mvc_v1.Controllers
         {
             if (ModelState.IsValid)
             {
+                //new Employee()
                 var employee = unitOfWork.EmployeeRepository.GetById<Employee>(employeeModel.Id);
                 employee.FirstName = employeeModel.FirstName;
                 employee.LastName = employeeModel.LastName;

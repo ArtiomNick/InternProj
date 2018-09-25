@@ -12,8 +12,8 @@ namespace DataAccessLayer
         {
             var departments = new List<Department>
             {
-            new Department{ DepartmentName = "dep1", ManagerName = "man1" },
-            new Department{ DepartmentName = "dep2", ManagerName = "man2" }
+                new Department{ DepartmentName = "dep1", ManagerName = "man1" },
+                new Department{ DepartmentName = "dep2", ManagerName = "man2" }
             };
             
             departments.ForEach(s => context.Departments.Add(s));

@@ -10,7 +10,7 @@ using Repository.Interfaces;
 
 namespace Repository.Implementation
 {
-    public class Repository : IRepository
+    public class Repository : IUnitOfWork
     {
         //private EmployeeManagementContext context;
         internal EmployeeManagementContext context = new EmployeeManagementContext();

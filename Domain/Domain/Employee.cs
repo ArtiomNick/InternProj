@@ -13,13 +13,16 @@ namespace Domain
         public DateTime DateOfEmployment { get; set; }
 
         //public string PasswordHash { get; set; }
-        public Employee()
+        private Employee()
         {
 
         }
 
         public Employee(string firstName, string lastName, string email, DateTime dateOfEmployment, long departmentId)
         {
+            if (string.IsNullOrWhiteSpace(firstName))
+                throw new ArgumentException($"{nameof(firstName)} is null or empty");
+
             this.FirstName = firstName;
             this.LastName = lastName;
             this.Email = email;
