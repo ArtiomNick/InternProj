@@ -10,16 +10,17 @@ using DataAccessLayer;
 using Domain;
 using Mvc_v1.Models;
 using Repository;
+using ServiceLayer;
 
 namespace Mvc_v1.Controllers
 {
     public class EmployeeController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
-        //private readonly IEmployeeService service { get; set; }
-        public EmployeeController() //IEmployeeService
+        private readonly IServiceEmployee service;
+        public EmployeeController(IServiceEmployee serviceEmployee)
         {
-
+            this.service = serviceEmployee;
         }
         // GET: Employee
         public ActionResult Index(/*string sortOrder*/)
@@ -27,7 +28,7 @@ namespace Mvc_v1.Controllers
             //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "FirstName_desc" : "";
             //ViewBag.DateSortParm = sortOrder == "DateOfEmployment" ? "DateOfEmployment_desc" : "DateOfEmployment";
 
-            var employeeDtos = unitOfWork.EmployeeRepository.GetAllEmployees();
+            var employeeDtos = service.GetAllEmployees();
             return View(employeeDtos);
         }
 

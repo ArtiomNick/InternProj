@@ -6,6 +6,7 @@ using Domain;
 using Repository.Implementation;
 using Mvc_v1.Controllers;
 using Unity.Injection;
+using ServiceLayer;
 
 namespace Mvc_v1
 {
@@ -25,9 +26,13 @@ namespace Mvc_v1
             //container.RegisterType<IRepository<Salary>, Repository<Salary>>();
             //container.RegisterType<IRepository<Event>, Repository<Event>>();
             //container.RegisterType<IRepository<PersonalData>, Repository<PersonalData>>();
-            container.RegisterType<IUnitOfWork, Repository.Implementation.Repository>();
+
+            container.RegisterType<IRepository, Repository.Implementation.Repository>();
             container.RegisterType<IEmployeeRepository, EmployeeRepository>();
             container.RegisterType<IDepartmentRepository, DepartmentRepository>();
+
+            container.RegisterType<IServiceDepartment, ServiceDepartment>();
+            container.RegisterType<IServiceEmployee, ServiceEmployee>();
 
             container.RegisterType<AccountController>(new InjectionConstructor());
             //container.RegisterType<RolesAdminController>(new InjectionConstructor());

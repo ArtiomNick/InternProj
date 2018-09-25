@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Interfaces
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IRepository : IDisposable
     {
         IList<T> GetAll<T>() where T : EntityBase;
 

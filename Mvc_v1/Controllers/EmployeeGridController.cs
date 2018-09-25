@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using DataAccessLayer;
 using Domain.Dto;
 using Repository;
+using ServiceLayer;
 
 namespace Mvc_v1.Controllers
 {
@@ -16,10 +17,17 @@ namespace Mvc_v1.Controllers
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
 
+        private readonly IServiceEmployee service;
+        public EmployeeGridController(IServiceEmployee serviceEmployee)
+        {
+            this.service = serviceEmployee;
+        }
+        //
+
         // GET: EmployeeGrid
         public ActionResult Index()
         {
-            return View(unitOfWork.EmployeeRepository.GetAllEmployees());
+            return View(service.GetAllEmployees());
         }
 
 

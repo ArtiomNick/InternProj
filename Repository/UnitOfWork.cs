@@ -1,46 +1,39 @@
 ﻿using DataAccessLayer;
-using Domain;
-using Repository.Interfaces;
-using Repository.Implementation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Repository.Implementation;
 
 namespace Repository
 {
     public class UnitOfWork
     {
         private EmployeeManagementContext context = new EmployeeManagementContext();
-        private DepartmentRepository departmentRepository;
-        private EmployeeRepository employeeRepository;
+        private Implementation.Repository departmentRepository;
+        private Implementation.Repository employeeRepository;
         private Implementation.Repository salaryRepository;
         private Implementation.Repository shiftRepository;
         private Implementation.Repository eventRepository;
         private Implementation.Repository personalDataRepository;
 
 
-        public DepartmentRepository DepartmentRepository
+        public Implementation.Repository DepartmentRepository
         {
             get
             {
                 if (this.departmentRepository == null)
                 {
-                    this.departmentRepository = new DepartmentRepository(context);
+                    this.departmentRepository = new Implementation.Repository(context);
                 }
                 return departmentRepository;
             }
         }
 
-        public EmployeeRepository EmployeeRepository
+        public Implementation.Repository EmployeeRepository
         {
             get
             {
 
                 if (this.employeeRepository == null)
                 {
-                    this.employeeRepository = new EmployeeRepository(context);
+                    this.employeeRepository = new Implementation.Repository(context);
                 }
                 return employeeRepository;
             }

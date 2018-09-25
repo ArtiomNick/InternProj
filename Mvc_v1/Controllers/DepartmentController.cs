@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using DataAccessLayer;
 using Domain;
 using Repository;
+using ServiceLayer;
 
 namespace Mvc_v1.Controllers
 {
@@ -16,10 +17,17 @@ namespace Mvc_v1.Controllers
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
 
+        private readonly IServiceDepartment service;
+
+        public DepartmentController(IServiceDepartment serviceDepartment)
+        {
+            this.service = serviceDepartment;
+        }
+
         // GET: Department
         public ActionResult Index()
         {
-            var departmentDtos = unitOfWork.DepartmentRepository.GetAllDepartments();
+            var departmentDtos = service.GetAllDepartments();
             return View(departmentDtos);
         }
 
