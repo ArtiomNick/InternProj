@@ -7,6 +7,9 @@ using Repository.Implementation;
 using Mvc_v1.Controllers;
 using Unity.Injection;
 using ServiceLayer;
+using DataAccessLayer;
+using Unity.Lifetime;
+using System.Data.Entity;
 
 namespace Mvc_v1
 {
@@ -15,6 +18,10 @@ namespace Mvc_v1
         public static void RegisterComponents()
         {
 			var container = new UnityContainer();
+
+            // MVC
+            //DependencyResolver.SetResolver(
+            //    new UnityDependencyResolver(container));
 
             // register all your components with the container here
             // it is NOT necessary to register your controllers
@@ -27,12 +34,18 @@ namespace Mvc_v1
             //container.RegisterType<IRepository<Event>, Repository<Event>>();
             //container.RegisterType<IRepository<PersonalData>, Repository<PersonalData>>();
 
+            //container.RegisterType<DbContext, EmployeeManagementContext>(new HierarchicalLifetimeManager(), new InjectionConstructor());
+            //container.RegisterType<EmployeeManagementContext>(new HierarchicalLifetimeManager());
+
+
             container.RegisterType<IRepository, Repository.Implementation.Repository>();
-            container.RegisterType<IEmployeeRepository, EmployeeRepository>();
-            container.RegisterType<IDepartmentRepository, DepartmentRepository>();
+            //container.RegisterType<IEmployeeRepository, EmployeeRepository>();
+            //container.RegisterType<IDepartmentRepository, DepartmentRepository>();
 
             container.RegisterType<IServiceDepartment, ServiceDepartment>();
             container.RegisterType<IServiceEmployee, ServiceEmployee>();
+
+            
 
             container.RegisterType<AccountController>(new InjectionConstructor());
             //container.RegisterType<RolesAdminController>(new InjectionConstructor());

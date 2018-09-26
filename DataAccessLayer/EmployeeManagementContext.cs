@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using Domain;
 using Domain.Domain;
+using System.Diagnostics;
 
 namespace DataAccessLayer
 {

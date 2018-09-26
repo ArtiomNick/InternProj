@@ -11,5 +11,16 @@ namespace Domain
         public string ManagerName { get; set; }
 
         public virtual List<Employee> Employees { get; set; } = new List<Employee>();
+
+        public Department()
+        {
+
+        }
+
+        public Department(string departmentName, string ManagerName)
+        {
+            this.DepartmentName = departmentName;
+            this.ManagerName = ManagerName;
+        }
     }
 }

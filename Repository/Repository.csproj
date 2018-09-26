@@ -47,8 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementation\DepartmentRepository.cs" />
-    <Compile Include="Implementation\EmployeeRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="Interfaces\IDepartmentRepository.cs" />
@@ -73,6 +71,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Implementation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

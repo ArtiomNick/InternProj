@@ -47,6 +47,10 @@
     <Compile Include="ServiceEmployee.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
+      <Project>{95921a2b-d8a5-4b4e-b792-2617364ad75e}</Project>
+      <Name>DataAccessLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{ac44e5f4-1e73-4431-b9f2-47e9409879ee}</Project>
       <Name>Domain</Name>

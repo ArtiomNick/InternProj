@@ -1,4 +1,4 @@
-﻿@model Domain.Employee
+﻿@model Domain.Dto.EmployeeDto
 
 @{
     ViewBag.Title = "Details";
@@ -11,11 +11,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Department.DepartmentName)
+            @Html.DisplayNameFor(model => model.DepartmentName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Department.DepartmentName)
+            @Html.DisplayFor(model => model.DepartmentName)
         </dd>
 
         <dt>
@@ -50,14 +50,14 @@
             @Html.DisplayFor(model => model.DateOfEmployment)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Shift.ShiftName)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Shift.ShiftName)
         </dd>
-        <!--
+        
         <dt>
             @Html.DisplayNameFor(model => model.PersonalDataId)
         </dt>
@@ -72,8 +72,8 @@
 
             <dd>
                 @Html.DisplayFor(model => model.EventId)
-            </dd>
-    -->
+            </dd>*@
+    
     </dl>
 </div>
 <p>

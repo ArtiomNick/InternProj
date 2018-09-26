@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Repository.Interfaces;
+using System.Diagnostics;
 
 namespace Repository.Implementation
 {
     public class Repository : IRepository
     {
-        //private EmployeeManagementContext context;
-        internal EmployeeManagementContext context = new EmployeeManagementContext();
+        private EmployeeManagementContext context;
         public Repository(EmployeeManagementContext context)
         {
             this.context = context;
@@ -21,6 +21,7 @@ namespace Repository.Implementation
 
         public IList<T> GetAll<T>() where T : EntityBase
         {
+            
             return context.Set<T>().ToList();
         }
 

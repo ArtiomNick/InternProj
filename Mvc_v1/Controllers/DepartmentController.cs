@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using DataAccessLayer;
 using Domain;
+using Mvc_v1.Models;
 using Repository;
 using ServiceLayer;
 
@@ -15,8 +16,6 @@ namespace Mvc_v1.Controllers
 {
     public class DepartmentController : Controller
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
-
         private readonly IServiceDepartment service;
 
         public DepartmentController(IServiceDepartment serviceDepartment)
@@ -34,17 +33,12 @@ namespace Mvc_v1.Controllers
         // GET: Department/Details/5
         public ActionResult Details(int id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-
-            Department department = unitOfWork.DepartmentRepository.GetById<Department>(id);
-            if (department == null)
+            var departmentDto = service.GetDepartmentDto(id);
+            if (departmentDto == null)
             {
                 return HttpNotFound();
             }
-            return View(department);
+            return View(departmentDto);
         }
 
         // GET: Department/Create
@@ -54,66 +48,64 @@ namespace Mvc_v1.Controllers
         }
 
         // POST: Department/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,DepartmentName,ManagerName")] Department department)
+        public ActionResult Create([Bind(Include = "Id,DepartmentName,ManagerName")] DepartmentModel model)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.DepartmentRepository.Create(department);
-                unitOfWork.Save();
+                var department = new Department(model.DepartmentName, model.DepartmentName);
+                service.CreateDepartment(department);
                 return RedirectToAction("Index");
             }
 
-            return View(department);
+            return View(model);
         }
 
         // GET: Department/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(long id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            Department department = unitOfWork.DepartmentRepository.GetById<Department>(id);
+            var department = service.GetDepartment(id);
             if (department == null)
             {
                 return HttpNotFound();
             }
-            return View(department);
+
+            var departmentModel = new DepartmentModel
+            {
+                Id = department.Id,
+                DepartmentName = department.DepartmentName,
+                ManagerName = department.ManagerName
+            };
+            return View(departmentModel);
         }
 
         // POST: Department/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,DepartmentName,ManagerName")] Department department)
+        public ActionResult Edit([Bind(Include = "Id,DepartmentName,ManagerName")] Department model)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.DepartmentRepository.Update(department);
-                unitOfWork.Save();
+                var department = new Department(model.DepartmentName, model.ManagerName);
+                service.EditDepartment(department, model.Id);
+
                 return RedirectToAction("Index");
             }
-            return View(department);
+
+            return View(model);
         }
 
         // GET: Department/Delete/5
         public ActionResult Delete(int id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            Department department = unitOfWork.DepartmentRepository.GetById<Department>(id);
-            if (department == null)
+            var departmentDto = service.GetDepartmentDto(id);
+            if (departmentDto == null)
             {
                 return HttpNotFound();
             }
-            return View(department);
+
+            return View(departmentDto);
         }
 
         // POST: Department/Delete/5
@@ -121,15 +113,14 @@ namespace Mvc_v1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Department department = unitOfWork.DepartmentRepository.GetById<Department>(id);
-            unitOfWork.DepartmentRepository.Delete(department);
-            unitOfWork.Save();
+            var department = service.GetDepartment(id);
+            service.DeleteDepartment(department);
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            unitOfWork.Dispose();
+            
             base.Dispose(disposing);
         }
     }

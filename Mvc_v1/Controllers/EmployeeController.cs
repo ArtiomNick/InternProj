@@ -9,18 +9,19 @@ using System.Web.Mvc;
 using DataAccessLayer;
 using Domain;
 using Mvc_v1.Models;
-using Repository;
 using ServiceLayer;
 
 namespace Mvc_v1.Controllers
 {
     public class EmployeeController : Controller
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
+        //private UnitOfWork unitOfWork = new UnitOfWork();
         private readonly IServiceEmployee service;
-        public EmployeeController(IServiceEmployee serviceEmployee)
+        private readonly IServiceDepartment departmentService;
+        public EmployeeController(IServiceEmployee serviceEmployee, IServiceDepartment serviceDepartment)
         {
             this.service = serviceEmployee;
+            this.departmentService = serviceDepartment;
         }
         // GET: Employee
         public ActionResult Index(/*string sortOrder*/)
@@ -35,58 +36,41 @@ namespace Mvc_v1.Controllers
         // GET: Employee/Details/5
         public ActionResult Details(long id)
         {
-            //id was nullable
-            /*
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            */
-
-            //service.GetById(id)
-            Employee employee = unitOfWork.EmployeeRepository.GetById<Employee>(id);
-            if (employee == null)
+            var employeeDto = service.GetEmployeeDto(id);
+            if (employeeDto == null)
             {
                 return HttpNotFound();
             }
-            return View(employee);
+            return View(employeeDto);
         }
 
         // GET: Employee/Create
         public ActionResult Create()
         {
-            ViewBag.DepartmentId = new SelectList(unitOfWork.DepartmentRepository.GetAll<Department>(), "Id", "DepartmentName");
+            ViewBag.DepartmentId = new SelectList(departmentService.GetAllDepartments(), "Id", "DepartmentName");
             return View();
         }
 
         // POST: Employee/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Email,DateOfEmployment,DepartmentId")] EmployeeModel employeeModel)
+        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Email,DateOfEmployment,DepartmentId")] EmployeeModel model)
         {
             if (ModelState.IsValid)
             {
-                var employee = MapToEmployee(employeeModel);
-                unitOfWork.EmployeeRepository.Create(employee);
-                unitOfWork.Save();
+                var employee = new Employee(model.FirstName, model.LastName, model.Email, model.DateOfEmployment, model.DepartmentId);
+                service.CreateEmployee(employee);
                 return RedirectToAction("Index");
             };
 
-            ViewBag.DepartmentId = new SelectList(unitOfWork.DepartmentRepository.GetAll<Department>(), "Id", "DepartmentName", employeeModel.DepartmentId);
-            return View(employeeModel);
+            ViewBag.DepartmentId = new SelectList(departmentService.GetAllDepartments(), "Id", "DepartmentName", model.DepartmentId);
+            return View(model);
         }
 
         // GET: Employee/Edit/5
         public ActionResult Edit(long id)
         {
-            //id was nullable int
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            var employee = unitOfWork.EmployeeRepository.GetById<Employee>(id);
+            var employee = service.GetEmployee(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -98,48 +82,36 @@ namespace Mvc_v1.Controllers
                 Email = employee.Email,
                 DepartmentId = employee.DepartmentId };
 
-            ViewBag.DepartmentId = new SelectList(unitOfWork.DepartmentRepository.GetAll<Department>(), "Id", "DepartmentName", employee.DepartmentId);
+            ViewBag.DepartmentId = new SelectList(departmentService.GetAllDepartments(), "Id", "DepartmentName", employee.DepartmentId);
             return View(employeeModel);
         }
 
         // POST: Employee/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,DateOfEmployment,DepartmentId")] EmployeeModel employeeModel)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,DateOfEmployment,DepartmentId")] EmployeeModel model)
         {
             if (ModelState.IsValid)
             {
                 //new Employee()
-                var employee = unitOfWork.EmployeeRepository.GetById<Employee>(employeeModel.Id);
-                employee.FirstName = employeeModel.FirstName;
-                employee.LastName = employeeModel.LastName;
-                employee.Email = employeeModel.Email;
-                employee.DateOfEmployment = employeeModel.DateOfEmployment;
-                employee.DepartmentId = employeeModel.DepartmentId;
-                unitOfWork.EmployeeRepository.Update(employee);
-                unitOfWork.Save();
+                var employee = new Employee(model.FirstName, model.LastName, model.Email, model.DateOfEmployment, model.DepartmentId);
+                service.EditEmployee(employee, model.Id);
 
                 return RedirectToAction("Index");
             }
-            ViewBag.DepartmentId = new SelectList(unitOfWork.DepartmentRepository.GetAll<Department>(), "Id", "DepartmentName", employeeModel.DepartmentId);
-            return View(employeeModel);
+            ViewBag.DepartmentId = new SelectList(departmentService.GetAllDepartments(), "Id", "DepartmentName", model.DepartmentId);
+            return View(model);
         }
 
         // GET: Employee/Delete/5
         public ActionResult Delete(long id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            Employee employee = unitOfWork.EmployeeRepository.GetById<Employee>(id);
-            if (employee == null)
+            var employeeDto = service.GetEmployeeDto(id);
+            if (employeeDto == null)
             {
                 return HttpNotFound();
             }
-            return View(employee);
+            return View(employeeDto);
         }
 
         // POST: Employee/Delete/5
@@ -147,22 +119,15 @@ namespace Mvc_v1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {
-            Employee employee = unitOfWork.EmployeeRepository.GetById<Employee>(id);
-            unitOfWork.EmployeeRepository.Delete(employee);
-            unitOfWork.Save();
+            var employee = service.GetEmployee(id);
+            service.DeleteEmployee(employee);
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            unitOfWork.Dispose();
+            //service.Dispose();
             base.Dispose(disposing);
         }
-
-        private Employee MapToEmployee(EmployeeModel model)
-        {
-            return new Employee(model.FirstName, model.LastName, model.Email, model.DateOfEmployment, model.DepartmentId);
-        }
-
     }
 }

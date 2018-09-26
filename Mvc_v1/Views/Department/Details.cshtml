@@ -1,4 +1,4 @@
-﻿@model Domain.Department
+﻿@model Domain.Dto.DepartmentDto
 
 @{
     ViewBag.Title = "Details";
@@ -24,6 +24,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.ManagerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfEmployees)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfEmployees)
         </dd>
 
     </dl>

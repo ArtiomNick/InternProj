@@ -24,10 +24,7 @@ namespace Mvc_v1.Models
         //[Display(Name = "Date of employment")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateOfEmployment { get; set; }
-        //[Display(Name ="Department")]
-        public long DepartmentId { get; set; }
 
-        //[Required(ErrorMessage = "Department is required")]
-        //public virtual Department Department { get; set; }
+        public long DepartmentId { get; set; }
     }
 }
