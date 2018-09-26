@@ -8,106 +8,109 @@ using System.Web;
 using System.Web.Mvc;
 using DataAccessLayer;
 using Domain;
+using Mvc_v1.Models;
+using ServiceLayer;
 
 namespace Mvc_v1.Controllers
 {
     public class PersonalDataController : Controller
     {
-        private EmployeeManagementContext db = new EmployeeManagementContext();
+        private readonly IServicePersonalData service;
+        private readonly IServiceEmployee serviceEmployee;
+        public PersonalDataController(IServicePersonalData personalDataShift, IServiceEmployee serviceEmployee)
+        {
+            this.service = personalDataShift;
+            this.serviceEmployee = serviceEmployee;
+        }
 
         // GET: PersonalData
         public ActionResult Index()
         {
-            var personalDatas = db.PersonalDatas.Include(p => p.Employee);
-            return View(personalDatas.ToList());
+            var persoanlaDataDtos = service.GetAllPersonalDatas();
+            return View(persoanlaDataDtos);
         }
 
         // GET: PersonalData/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(long id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PersonalData personalData = db.PersonalDatas.Find(id);
-            if (personalData == null)
+            var persoanalDataDto = service.GetPersonalDataDto(id);
+            if (persoanalDataDto == null)
             {
                 return HttpNotFound();
             }
-            return View(personalData);
+            return View(persoanalDataDto);
         }
 
         // GET: PersonalData/Create
         public ActionResult Create()
         {
-            ViewBag.Id = new SelectList(db.Employees, "Id", "FirstName");
+            ViewBag.Id = new SelectList(serviceEmployee.GetAllEmployees(), "Id", "FirstName");
             return View();
         }
 
         // POST: PersonalData/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Adress,PhoneNumber,DateOfBirth")] PersonalData personalData)
+        public ActionResult Create([Bind(Include = "Id,Adress,PhoneNumber,DateOfBirth")] PersonalDataModel model)
         {
             if (ModelState.IsValid)
             {
-                db.PersonalDatas.Add(personalData);
-                db.SaveChanges();
+                var personalData = new PersonalData(model.Id, model.Adress, model.PhoneNumber, model.DateOfBirth);
+                service.CreatePersonalData(personalData);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id = new SelectList(db.Employees, "Id", "FirstName", personalData.Id);
-            return View(personalData);
+            ViewBag.Id = new SelectList(serviceEmployee.GetAllEmployees(), "Id", "FirstName", model.Id);
+            return View(model);
         }
 
         // GET: PersonalData/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(long id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PersonalData personalData = db.PersonalDatas.Find(id);
+            var personalData = service.GetPersonalData(id);
             if (personalData == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Id = new SelectList(db.Employees, "Id", "FirstName", personalData.Id);
-            return View(personalData);
+            var personalDataModel = new PersonalDataModel
+            {
+                Id = personalData.Id,
+                Adress = personalData.Adress,
+                PhoneNumber = personalData.PhoneNumber,
+                DateOfBirth = personalData.DateOfBirth
+            };
+
+            ViewBag.Id = new SelectList(serviceEmployee.GetAllEmployees(), "Id", "FirstName", personalData.Id);
+            return View(personalDataModel);
         }
 
         // POST: PersonalData/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Adress,PhoneNumber,DateOfBirth")] PersonalData personalData)
+        public ActionResult Edit([Bind(Include = "Id,Adress,PhoneNumber,DateOfBirth")] PersonalDataModel model)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(personalData).State = EntityState.Modified;
-                db.SaveChanges();
+                var personalData = new PersonalData(model.Adress, model.PhoneNumber, model.DateOfBirth);
+                service.EditPersonalData(personalData, model.Id);
+
                 return RedirectToAction("Index");
             }
-            ViewBag.Id = new SelectList(db.Employees, "Id", "FirstName", personalData.Id);
-            return View(personalData);
+
+            ViewBag.Id = new SelectList(serviceEmployee.GetAllEmployees(), "Id", "FirstName", model.Id);
+            return View(model);
         }
 
         // GET: PersonalData/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(long id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PersonalData personalData = db.PersonalDatas.Find(id);
-            if (personalData == null)
+            var personalDataDto = service.GetPersonalDataDto(id);
+            if (personalDataDto == null)
             {
                 return HttpNotFound();
             }
-            return View(personalData);
+
+            return View(personalDataDto);
         }
 
         // POST: PersonalData/Delete/5
@@ -115,19 +118,9 @@ namespace Mvc_v1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            PersonalData personalData = db.PersonalDatas.Find(id);
-            db.PersonalDatas.Remove(personalData);
-            db.SaveChanges();
+            var personalData = service.GetPersonalData(id);
+            service.DeletePersonalData(personalData);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

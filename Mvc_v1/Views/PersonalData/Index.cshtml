@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Domain.PersonalData>
+﻿@model IEnumerable<Domain.Dto.PersonalDataDto>
 
 @{
     ViewBag.Title = "Index";
@@ -11,9 +11,9 @@
 </p>
 <table class="table">
     <tr>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Employee.FirstName)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.Adress)
         </th>
@@ -28,9 +28,9 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.Employee.FirstName)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.Adress)
         </td>
