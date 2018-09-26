@@ -17,10 +17,15 @@ namespace Domain
 
         }
 
-        public Department(string departmentName, string ManagerName)
+        public Department(string departmentName, string managerName)
         {
+            if (string.IsNullOrWhiteSpace(departmentName))
+                throw new ArgumentException($"{nameof(departmentName)} is null or empty");
+            if (string.IsNullOrWhiteSpace(managerName))
+                throw new ArgumentException($"{nameof(managerName)} is null or empty");
+
             this.DepartmentName = departmentName;
-            this.ManagerName = ManagerName;
+            this.ManagerName = managerName;
         }
     }
 }

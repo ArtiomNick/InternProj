@@ -19,6 +19,15 @@ namespace Domain
         }
         public Shift(string shiftName, TimeSpan startTime, TimeSpan endTime, TimeSpan breakTime)
         {
+            if (string.IsNullOrWhiteSpace(shiftName))
+                throw new ArgumentException($"{nameof(shiftName)} is null or empty");
+            if (startTime == null)
+                throw new ArgumentException($"{nameof(startTime)} is null");
+            if (endTime == null)
+                throw new ArgumentException($"{nameof(endTime)} is null");
+            if (breakTime == null)
+                throw new ArgumentException($"{nameof(breakTime)} is null");
+
             this.ShiftName = shiftName;
             this.StartTime = startTime;
             this.EndTime = EndTime;
@@ -27,6 +36,15 @@ namespace Domain
 
         public Shift(long id, string shiftName, TimeSpan startTime, TimeSpan endTime, TimeSpan breakTime)
         {
+            if (string.IsNullOrWhiteSpace(shiftName))
+                throw new ArgumentException($"{nameof(shiftName)} is null or empty");
+            if (startTime == null)
+                throw new ArgumentException($"{nameof(startTime)} is null");
+            if (endTime == null)
+                throw new ArgumentException($"{nameof(endTime)} is null");
+            if (breakTime == null)
+                throw new ArgumentException($"{nameof(breakTime)} is null");
+
             this.Id = id;
             this.ShiftName = shiftName;
             this.StartTime = startTime;

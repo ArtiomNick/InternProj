@@ -21,6 +21,13 @@ namespace Domain
 
         public PersonalData(string adress, string phoneNumber, DateTime dateOfBirth)
         {
+            if (string.IsNullOrWhiteSpace(adress))
+                throw new ArgumentException($"{nameof(adress)} is null or empty");
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+                throw new ArgumentException($"{nameof(phoneNumber)} is null or empty");
+            if (dateOfBirth == null)
+                throw new ArgumentException($"{nameof(dateOfBirth)} is null");
+
             this.Adress = adress;
             this.PhoneNumber = phoneNumber;
             this.DateOfBirth = dateOfBirth;

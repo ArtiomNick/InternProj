@@ -22,6 +22,10 @@ namespace Domain
         {
             if (string.IsNullOrWhiteSpace(firstName))
                 throw new ArgumentException($"{nameof(firstName)} is null or empty");
+            if (string.IsNullOrWhiteSpace(lastName))
+                throw new ArgumentException($"{nameof(lastName)} is null or empty");
+            if (dateOfEmployment == null)
+                throw new ArgumentException($"{nameof(dateOfEmployment)} is null");
 
             this.FirstName = firstName;
             this.LastName = lastName;
@@ -29,17 +33,20 @@ namespace Domain
             this.DateOfEmployment = dateOfEmployment;
             this.DepartmentId = departmentId;
         }
-        public Employee(string firstName, string lastName, string email, DateTime dateOfEmployment, Department department)
-        {
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            this.Email = email;
-            this.DateOfEmployment = dateOfEmployment;
-            this.Department = department;
-        }
+        //public Employee(string firstName, string lastName, string email, DateTime dateOfEmployment, Department department)
+        //{
+        //    if (string.IsNullOrWhiteSpace(firstName))
+        //        throw new ArgumentException($"{nameof(firstName)} is null or empty");
+        //    if (string.IsNullOrWhiteSpace(lastName))
+        //        throw new ArgumentException($"{nameof(lastName)} is null or empty");
 
-        public long ShiftId { get; set; }
-        public long PersonalDataId { get; set; }
+        //    this.FirstName = firstName;
+        //    this.LastName = lastName;
+        //    this.Email = email;
+        //    this.DateOfEmployment = dateOfEmployment;
+        //    this.Department = department;
+        //}
+
         public long DepartmentId { get; set; }
         public long EventId { get; set; }
 

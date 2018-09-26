@@ -9,10 +9,10 @@ namespace Mvc_v1.Models
 {
     public class EmployeeModel : BaseModel
     {
-        [Required(ErrorMessage = "FN is required")]
+        [Required(ErrorMessage = "First Name is required")]
         [StringLength(20)]
         public string FirstName { get; set; }
-        [Required(ErrorMessage = "LN is required")]
+        [Required(ErrorMessage = "Last Name is required")]
         [StringLength(20)]
         public string LastName { get; set; }
         [Required(ErrorMessage = "Email is required")]
@@ -21,6 +21,7 @@ namespace Mvc_v1.Models
         [EmailAddress(ErrorMessage ="InvalidAddress")]
         public string Email { get; set; }
         [Required(ErrorMessage = "DoE is required")]
+        [DataType(DataType.Date)]
         //[Display(Name = "Date of employment")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateOfEmployment { get; set; }
