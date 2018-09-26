@@ -15,7 +15,6 @@ namespace Mvc_v1.Controllers
 {
     public class EmployeeController : Controller
     {
-        //private UnitOfWork unitOfWork = new UnitOfWork();
         private readonly IServiceEmployee service;
         private readonly IServiceDepartment departmentService;
         public EmployeeController(IServiceEmployee serviceEmployee, IServiceDepartment serviceDepartment)
