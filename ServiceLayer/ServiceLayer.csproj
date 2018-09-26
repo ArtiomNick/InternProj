@@ -42,10 +42,15 @@
   <ItemGroup>
     <Compile Include="IServiceDepartment.cs" />
     <Compile Include="IServiceEmployee.cs" />
+    <Compile Include="IServicePersonalData.cs" />
+    <Compile Include="IServiceSalary.cs" />
     <Compile Include="IServiceShift.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceDepartment.cs" />
     <Compile Include="ServiceEmployee.cs" />
+    <Compile Include="ServicePersonalData.cs" />
+    <Compile Include="ServiceSalary.cs" />
+    <Compile Include="ServiceShift.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">

@@ -8,106 +8,111 @@ using System.Web;
 using System.Web.Mvc;
 using DataAccessLayer;
 using Domain;
+using Mvc_v1.Models;
+using ServiceLayer;
 
 namespace Mvc_v1.Controllers
 {
     public class ShiftController : Controller
     {
-        private EmployeeManagementContext db = new EmployeeManagementContext();
+        private readonly IServiceShift service;
+        private readonly IServiceEmployee serviceEmployee;
+        public ShiftController(IServiceShift serviceShift, IServiceEmployee serviceEmployee)
+        {
+            this.service = serviceShift;
+            this.serviceEmployee = serviceEmployee;
+        }
 
         // GET: Shift
         public ActionResult Index()
         {
-            var shifts = db.Shifts.Include(s => s.Employee);
-            return View(shifts.ToList());
+            var shiftDtos = service.GetAllShifts();
+            return View(shiftDtos);
         }
 
         // GET: Shift/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(long id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Shift shift = db.Shifts.Find(id);
-            if (shift == null)
+            var shiftDto = service.GetShiftDto(id);
+            if (shiftDto == null)
             {
                 return HttpNotFound();
             }
-            return View(shift);
+            return View(shiftDto);
         }
 
         // GET: Shift/Create
         public ActionResult Create()
         {
-            ViewBag.Id = new SelectList(db.Employees, "Id", "FirstName");
+            ViewBag.Id = new SelectList(serviceEmployee.GetAllEmployees(), "Id", "FirstName");
             return View();
         }
 
         // POST: Shift/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ShiftName,StartTime,EndTime,BreakTime")] Shift shift)
+        public ActionResult Create([Bind(Include = "Id,ShiftName,StartTime,EndTime,BreakTime")] ShiftModel model)
         {
             if (ModelState.IsValid)
             {
-                db.Shifts.Add(shift);
-                db.SaveChanges();
+                var shift = new Shift(model.Id, model.ShiftName, model.StartTime, model.EndTime, model.BreakTime);
+                service.CreateShift(shift);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id = new SelectList(db.Employees, "Id", "FirstName", shift.Id);
-            return View(shift);
+            ViewBag.Id = new SelectList(serviceEmployee.GetAllEmployees(), "Id", "FirstName", model.Id);
+            return View(model);
         }
 
         // GET: Shift/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(long id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Shift shift = db.Shifts.Find(id);
+            var shift = service.GetShift(id);
             if (shift == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Id = new SelectList(db.Employees, "Id", "FirstName", shift.Id);
-            return View(shift);
+            var shiftModel = new ShiftModel
+            {
+                Id = shift.Id,
+                ShiftName = shift.ShiftName,
+                StartTime = shift.StartTime,
+                EndTime = shift.EndTime,
+                BreakTime = shift.BreakTime
+            };
+
+            ViewBag.Id = new SelectList(serviceEmployee.GetAllEmployees(), "Id", "FirstName", shift.Id);
+            return View(shiftModel);
         }
 
         // POST: Shift/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ShiftName,StartTime,EndTime,BreakTime")] Shift shift)
+        public ActionResult Edit([Bind(Include = "Id,ShiftName,StartTime,EndTime,BreakTime")] ShiftModel model)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(shift).State = EntityState.Modified;
-                db.SaveChanges();
+                //new Employee()
+                var shift = new Shift(model.ShiftName, model.StartTime, model.EndTime, model.BreakTime);
+                service.EditShift(shift, model.Id);
+
                 return RedirectToAction("Index");
             }
-            ViewBag.Id = new SelectList(db.Employees, "Id", "FirstName", shift.Id);
-            return View(shift);
+
+            ViewBag.Id = new SelectList(serviceEmployee.GetAllEmployees(), "Id", "FirstName", model.Id);
+            return View(model);
         }
 
         // GET: Shift/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(long id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Shift shift = db.Shifts.Find(id);
-            if (shift == null)
+            var shiftDto = service.GetShiftDto(id);
+            if (shiftDto == null)
             {
                 return HttpNotFound();
             }
-            return View(shift);
+
+            return View(shiftDto);
         }
 
         // POST: Shift/Delete/5
@@ -115,19 +120,11 @@ namespace Mvc_v1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Shift shift = db.Shifts.Find(id);
-            db.Shifts.Remove(shift);
-            db.SaveChanges();
+            var shift = service.GetShift(id);
+            service.DeleteShift(shift);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        
     }
 }

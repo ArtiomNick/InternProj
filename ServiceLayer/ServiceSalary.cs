@@ -9,7 +9,7 @@ using Repository.Interfaces;
 
 namespace ServiceLayer
 {
-    class ServiceSalary : IServiceSalary
+    public class ServiceSalary : IServiceSalary
     {
         private IRepository Repository { get; }
 

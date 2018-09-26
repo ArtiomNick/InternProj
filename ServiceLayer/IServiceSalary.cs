@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer
 {
-    interface IServiceSalary
+    public interface IServiceSalary
     {
         void CreateSalary(Salary salary);
         void EditSalary(Salary salaryModel, long id);

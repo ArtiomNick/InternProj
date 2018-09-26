@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Mvc_v1.Models
 {
-    public class ShiftModel
+    public class ShiftModel : BaseModel
     {
         public string ShiftName { get; set; }
         public TimeSpan StartTime { get; set; }

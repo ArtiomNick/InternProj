@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Mvc_v1.Models
 {
-    public class EventModel
+    public class EventModel : BaseModel
     {
         public string EventName { get; set; }
         public DateTime EventDate { get; set; }

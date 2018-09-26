@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Mvc_v1.Models
 {
-    public class PersonalDataModel
+    public class PersonalDataModel : BaseModel
     {
         public string Adress { get; set; }
         public string PhoneNumber { get; set; }

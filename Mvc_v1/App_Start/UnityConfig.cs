@@ -44,8 +44,11 @@ namespace Mvc_v1
 
             container.RegisterType<IServiceDepartment, ServiceDepartment>();
             container.RegisterType<IServiceEmployee, ServiceEmployee>();
+            container.RegisterType<IServiceShift, ServiceShift>();
+            container.RegisterType<IServicePersonalData, ServicePersonalData>();
+            container.RegisterType<IServiceSalary, ServiceSalary>();
 
-            
+
 
             container.RegisterType<AccountController>(new InjectionConstructor());
             //container.RegisterType<RolesAdminController>(new InjectionConstructor());

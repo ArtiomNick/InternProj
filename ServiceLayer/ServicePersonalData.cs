@@ -9,7 +9,7 @@ using Repository.Interfaces;
 
 namespace ServiceLayer
 {
-    class ServicePersonalData : IServicePersonalData
+    public class ServicePersonalData : IServicePersonalData
     {
         private IRepository Repository { get; }
 

@@ -9,7 +9,7 @@ using Repository.Interfaces;
 
 namespace ServiceLayer
 {
-    class ServiceShift : IServiceShift
+    public class ServiceShift : IServiceShift
     {
         private IRepository Repository { get; }
 
@@ -43,6 +43,7 @@ namespace ServiceLayer
             Repository.Update<Shift>(shift);
             Repository.Save();
         }
+
 
         public IList<ShiftDto> GetAllShifts()
         {
