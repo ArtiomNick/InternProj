@@ -23,10 +23,11 @@ namespace Mvc_v1.Models
         [EmailAddress(ErrorMessage ="InvalidAddress")]
         public string Email { get; set; }
         [Required(ErrorMessage = "DoE is required")]
-        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         [PastDate]
+        [DataType(DataType.Date)]
         //[Display(Name = "Date of employment")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateOfEmployment { get; set; }
 
         public long DepartmentId { get; set; }
