@@ -23,6 +23,15 @@ namespace DataAccessLayer.EntityConfiguration
 
             HasKey(x => x.Id);
 
+           HasMany(u => u.Roles)
+                .WithMany(r => r.Users)
+                .Map(m =>
+                {
+                    m.ToTable("UserRoles");
+                    m.MapLeftKey("UserId");
+                    m.MapRightKey("RoleId");
+                });
+
         }
     }
 }

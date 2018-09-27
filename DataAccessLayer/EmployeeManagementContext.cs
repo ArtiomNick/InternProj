@@ -22,6 +22,7 @@ namespace DataAccessLayer
         public DbSet<PersonalData> PersonalDatas { get; set; }
         public DbSet<Salary> Salaries { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Department.cs" />
+    <Compile Include="Domain\Role.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Dto\DepartmentDto.cs" />
     <Compile Include="Dto\EmployeeDto.cs" />

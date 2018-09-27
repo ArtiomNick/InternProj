@@ -10,7 +10,7 @@ namespace Domain
         public string DepartmentName { get; set; }
         public string ManagerName { get; set; }
 
-        public virtual List<Employee> Employees { get; set; } = new List<Employee>();
+        public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
         public Department()
         {
