@@ -8,124 +8,120 @@ using System.Web;
 using System.Web.Mvc;
 using DataAccessLayer;
 using Domain;
+using Mvc_v1.Models;
 using Repository;
+using ServiceLayer;
 
 namespace Mvc_v1.Controllers
 {
     public class SalaryController : Controller
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
+        private readonly IServiceSalary service;
+        private readonly IServiceEmployee serviceEmployee;
+        public SalaryController(IServiceSalary serviceSalary, IServiceEmployee serviceEmployee)
+        {
+            this.service = serviceSalary;
+            this.serviceEmployee = serviceEmployee;
+        }
 
         // GET: Salaries
         public ActionResult Index()
         {
-            var salaries = unitOfWork.SalaryRepository.GetAll<Salary>();
-            return View(salaries.ToList());
+            var salaryDtos = service.GetAllSalaries();
+            return View(salaryDtos);
         }
 
         // GET: Salaries/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(long id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            Salary salary = unitOfWork.SalaryRepository.GetById<Salary>(id);
-            if (salary == null)
+            var salaryDto = service.GetSalaryDto(id);
+            if (salaryDto == null)
             {
                 return HttpNotFound();
             }
-            return View(salary);
+            return View(salaryDto);
         }
 
         // GET: Salaries/Create
         public ActionResult Create()
         {
-            ViewBag.Id = new SelectList(unitOfWork.EmployeeRepository.GetAll<Salary>(), "Id", "FirstName");
+            ViewBag.Id = new SelectList(serviceEmployee.GetAllEmployees(), "Id", "FirstName");
             return View();
         }
 
         // POST: Salaries/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,WorkingHours,SalaryPerHour")] Salary salary)
+        public ActionResult Create([Bind(Include = "Id,WorkingHours,SalaryPerHour")] SalaryModel model)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.SalaryRepository.Create(salary);
-                unitOfWork.Save();
+                var salary = new Salary(model.Id, model.WorkingHours, model.SalaryPerHour);
+                service.CreateSalary(salary);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id = new SelectList(unitOfWork.EmployeeRepository.GetAll<Salary>(), "Id", "FirstName");
-            return View(salary);
+            ViewBag.Id = new SelectList(serviceEmployee.GetAllEmployees(), "Id", "FirstName", model.Id);
+            return View(model);
         }
 
         // GET: Salaries/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(long id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            Salary salary = unitOfWork.SalaryRepository.GetById<Salary>(id);
+            var salary = service.GetSalary(id);
             if (salary == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Id = new SelectList(unitOfWork.EmployeeRepository.GetAll<Salary>(), "Id", "FirstName", salary.Id);
-            return View(salary);
+            var salaryModel = new SalaryModel
+            {
+                Id = salary.Id,
+                WorkingHours = salary.WorkingHours,
+                SalaryPerHour = salary.SalaryPerHour
+            };
+
+            ViewBag.Id = new SelectList(serviceEmployee.GetAllEmployees(), "Id", "FirstName", salary.Id);
+            return View(salaryModel);
         }
 
         // POST: Salaries/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,WorkingHours,SalaryPerHour")] Salary salary)
+        public ActionResult Edit([Bind(Include = "Id,WorkingHours,SalaryPerHour")] SalaryModel model)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.SalaryRepository.Update(salary);
-                unitOfWork.Save();
+                //new Employee()
+                var salary = new Salary(model.WorkingHours, model.SalaryPerHour);
+                service.EditSalary(salary, model.Id);
+
                 return RedirectToAction("Index");
             }
-            ViewBag.Id = new SelectList(unitOfWork.EmployeeRepository.GetAll<Salary>(), "Id", "FirstName", salary.Id);
-            return View(salary);
+
+            ViewBag.Id = new SelectList(serviceEmployee.GetAllEmployees(), "Id", "FirstName", model.Id);
+            return View(model);
         }
 
         // GET: Salaries/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(long id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            Salary salary = unitOfWork.SalaryRepository.GetById<Salary>(id);
-            if (salary == null)
+            var salaryDto = service.GetSalaryDto(id);
+            if (salaryDto == null)
             {
                 return HttpNotFound();
             }
-            return View(salary);
+
+            return View(salaryDto);
         }
 
         // POST: Salaries/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(long id)
         {
-            Salary salary = unitOfWork.SalaryRepository.GetById<Salary>(id);
-            unitOfWork.SalaryRepository.Delete(salary);
-            unitOfWork.Save();
+            var salary = service.GetSalary(id);
+            service.DeleteSalary(salary);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            unitOfWork.Dispose();
-            base.Dispose(disposing);
         }
     }
 }

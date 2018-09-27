@@ -1,4 +1,4 @@
-﻿@model Domain.Salary
+﻿@model Mvc_v1.Models.SalaryModel
 
 @{
     ViewBag.Title = "Edit";
@@ -10,7 +10,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Salary</h4>
         <hr />
@@ -47,4 +47,6 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/positivenumber.js")
+
 }

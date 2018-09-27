@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Mvc_v1.Validations;
+
 
 namespace Mvc_v1.Models
 {
@@ -22,6 +24,7 @@ namespace Mvc_v1.Models
         public string Email { get; set; }
         [Required(ErrorMessage = "DoE is required")]
         [DataType(DataType.Date)]
+        [PastDate]
         //[Display(Name = "Date of employment")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateOfEmployment { get; set; }
