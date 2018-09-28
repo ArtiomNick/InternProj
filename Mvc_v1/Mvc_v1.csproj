@@ -238,16 +238,23 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Authentication\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Authentication\CustomMembership.cs" />
+    <Compile Include="Authentication\CustomMembershipUser.cs" />
+    <Compile Include="Authentication\CustomPrincipal.cs" />
+    <Compile Include="Authentication\CustomRole.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\EmployeeGridController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PersonalDataController.cs" />
     <Compile Include="Controllers\SalaryController.cs" />
     <Compile Include="Controllers\ShiftController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -259,6 +266,7 @@
     <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LoginView.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PersonalDataModel.cs" />
     <Compile Include="Models\SalaryModel.cs" />
@@ -296,7 +304,9 @@
     <Content Include="Scripts\pastdata.js" />
     <Content Include="Scripts\positivenumber.js" />
     <Compile Include="Validations\PastDateAtribute.cs" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -365,6 +375,10 @@
     <Content Include="Views\EmployeeGrid\Details.cshtml" />
     <Content Include="Views\EmployeeGrid\Edit.cshtml" />
     <Content Include="Views\EmployeeGrid\Index.cshtml" />
+    <Content Include="Views\Account\ActivationAccount.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\Registration.cshtml" />
+    <Content Include="Views\Error\AccessDenied.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

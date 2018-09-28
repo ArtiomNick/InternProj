@@ -17,7 +17,7 @@ namespace DataAccessLayer.EntityConfiguration
             Property(x => x.Email)
                 .IsRequired()
                 .HasMaxLength(40);
-            Property(x => x.PasswordHash)
+            Property(x => x.Password)
                 .IsRequired()
                 .HasMaxLength(30);
 
