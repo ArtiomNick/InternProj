@@ -50,13 +50,14 @@ namespace Mvc_v1.Controllers
         public ActionResult Create()
         {
             ViewBag.DepartmentId = new SelectList(departmentService.GetAllDepartments(), "Id", "DepartmentName");
+            ViewBag.RoleId = new SelectList(service.GetAllRoles(), "Id", "RoleName");
             return View();
         }
 
         // POST: Employee/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(/*[Bind(Include = "Id,FirstName,LastName,Email,DateOfEmployment,DepartmentId")]*/ EmployeeModel model)
+        public ActionResult Create(/*[Bind(Include = "Id,FirstName,LastName,Email,DateOfEmployment,DepartmentId")]*/ UserEmployeeModel model)
         {
             if (ModelState.IsValid)
             {
@@ -72,7 +73,7 @@ namespace Mvc_v1.Controllers
                     ActivationCode = Guid.NewGuid(),
                 };
 
-                service.CreateEmployee(employee, user);
+                service.CreateEmployee(employee, user, model.RoleId);
                 return RedirectToAction("Index");
             };
 

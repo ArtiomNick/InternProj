@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -50,7 +51,7 @@ namespace Domain
         public long DepartmentId { get; set; }
         public long EventId { get; set; }
 
-
+        public virtual User User { get; set; }
         public virtual Shift Shift { get; set; }
         public virtual PersonalData PersonalData { get; set; }
         public virtual Department Department { get; set; }

@@ -16,7 +16,9 @@ namespace Domain.Domain
         public bool IsActive { get; set; }
         public Guid ActivationCode { get; set; }
 
-        public virtual ICollection<Role> Roles { get; set; }
+
+        public virtual Employee Employee { get; set; }
+        public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
 
     }
 }

@@ -10,6 +10,9 @@ using ServiceLayer;
 using DataAccessLayer;
 using Unity.Lifetime;
 using System.Data.Entity;
+using System.Collections.Generic;
+using Domain.Domain;
+using System.Collections;
 
 namespace Mvc_v1
 {
@@ -47,6 +50,8 @@ namespace Mvc_v1
             container.RegisterType<IServiceShift, ServiceShift>();
             container.RegisterType<IServicePersonalData, ServicePersonalData>();
             container.RegisterType<IServiceSalary, ServiceSalary>();
+
+            //container.RegisterType<ICollection, List<Role>>();
 
 
 

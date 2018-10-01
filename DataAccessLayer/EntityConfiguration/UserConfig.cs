@@ -32,6 +32,9 @@ namespace DataAccessLayer.EntityConfiguration
                     m.MapRightKey("RoleId");
                 });
 
+            HasRequired(x => x.Employee)
+                .WithRequiredDependent(x => x.User);
+
         }
     }
 }

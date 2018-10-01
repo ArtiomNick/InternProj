@@ -55,6 +55,7 @@
     <Compile Include="Domain\PersonalData.cs" />
     <Compile Include="Dto\EventDto.cs" />
     <Compile Include="Dto\PersonalDataDto.cs" />
+    <Compile Include="Dto\RoleDto.cs" />
     <Compile Include="Dto\SalaryDto.cs" />
     <Compile Include="Dto\ShiftDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,10 +6,9 @@ using System.Linq;
 using System.Web;
 using Mvc_v1.Validations;
 
-
 namespace Mvc_v1.Models
 {
-    public class EmployeeModel : BaseModel
+    public class UserEmployeeModel : BaseModel
     {
         [Required(ErrorMessage = "First Name is required")]
         [StringLength(20)]
@@ -21,7 +20,7 @@ namespace Mvc_v1.Models
         public string LastName { get; set; }
         [Required(ErrorMessage = "Email is required")]
         [StringLength(40)]
-        [EmailAddress(ErrorMessage ="InvalidAddress")]
+        [EmailAddress(ErrorMessage = "InvalidAddress")]
         [Display(Name = "Email")]
         public string Email { get; set; }
         [Required(ErrorMessage = "DoE is required")]
@@ -31,5 +30,25 @@ namespace Mvc_v1.Models
         public DateTime DateOfEmployment { get; set; }
 
         public long DepartmentId { get; set; }
+
+        [Required(ErrorMessage = "User Name required")]
+        [Display(Name = "User Name")]
+        public string Username { get; set; }
+        [Required]
+        public Guid ActivationCode { get; set; }
+
+        [Required(ErrorMessage = "Password required")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [Required(ErrorMessage = "Confirm Password required")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm Password")]
+        [Compare("Password", ErrorMessage = "Error : Confirm password does not match with password")]
+        public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "Role required")]
+        public long RoleId { get; set; }
     }
 }

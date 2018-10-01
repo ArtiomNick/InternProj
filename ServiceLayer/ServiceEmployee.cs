@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer;
+using Domain.Domain;
 
 namespace ServiceLayer
 {
@@ -20,9 +21,12 @@ namespace ServiceLayer
         }
 
 
-        public void CreateEmployee(Employee employee)
+        public void CreateEmployee(Employee employee, User user, long roleId)
         {
             Repository.Create(employee);
+            user.Roles.Add(Repository.GetById<Role>(roleId));
+            Repository.Create(user);
+            
             Repository.Save();
         }
         public void EditEmployee(Employee employeeModel, long id)
@@ -41,6 +45,7 @@ namespace ServiceLayer
 
         public void DeleteEmployee(Employee employee)
         {
+            Repository.Delete<User>(Repository.GetById<User>(employee.Id));
             Repository.Delete<Employee>(employee);
             Repository.Save();
         }
@@ -75,6 +80,17 @@ namespace ServiceLayer
 
 
             return employees.ToList();
+        }
+
+        public IList<RoleDto> GetAllRoles()
+        {
+            var roles = from r in Repository.GetAll<Role>()
+                        select new RoleDto()
+                        {
+                            Id = r.Id,
+                            RoleName = r.RoleName
+                        };
+            return roles.ToList();
         }
 
 
