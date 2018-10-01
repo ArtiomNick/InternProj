@@ -8,11 +8,14 @@ using System.Web;
 using System.Web.Mvc;
 using DataAccessLayer;
 using Domain;
+using Domain.Domain;
+using Mvc_v1.Authentication;
 using Mvc_v1.Models;
 using ServiceLayer;
 
 namespace Mvc_v1.Controllers
 {
+    //[CustomAuthorize]
     public class EmployeeController : Controller
     {
         private readonly IServiceEmployee service;
@@ -31,7 +34,7 @@ namespace Mvc_v1.Controllers
             var employeeDtos = service.GetAllEmployees();
             return View(employeeDtos);
         }
-
+        [CustomAuthorize(Roles ="User")]
         // GET: Employee/Details/5
         public ActionResult Details(long id)
         {
@@ -53,12 +56,23 @@ namespace Mvc_v1.Controllers
         // POST: Employee/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Email,DateOfEmployment,DepartmentId")] EmployeeModel model)
+        public ActionResult Create(/*[Bind(Include = "Id,FirstName,LastName,Email,DateOfEmployment,DepartmentId")]*/ EmployeeModel model)
         {
             if (ModelState.IsValid)
             {
                 var employee = new Employee(model.FirstName, model.LastName, model.Email, model.DateOfEmployment, model.DepartmentId);
-                service.CreateEmployee(employee);
+                var user = new User()
+                {
+                    Username = model.Username,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    Password = model.Password,
+                    IsActive = true,
+                    ActivationCode = Guid.NewGuid(),
+                };
+
+                service.CreateEmployee(employee, user);
                 return RedirectToAction("Index");
             };
 

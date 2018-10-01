@@ -13,23 +13,42 @@ namespace Mvc_v1.Models
     {
         [Required(ErrorMessage = "First Name is required")]
         [StringLength(20)]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
         [Required(ErrorMessage = "Last Name is required")]
         [StringLength(20)]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
         [Required(ErrorMessage = "Email is required")]
         [StringLength(40)]
-        //[Display(Name = "Email address")]
         [EmailAddress(ErrorMessage ="InvalidAddress")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
         [Required(ErrorMessage = "DoE is required")]
         [DisplayFormat(DataFormatString = "{0:d}")]
         [PastDate]
         [DataType(DataType.Date)]
-        //[Display(Name = "Date of employment")]
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateOfEmployment { get; set; }
 
         public long DepartmentId { get; set; }
+
+        [Required(ErrorMessage = "User Name required")]
+        [Display(Name = "User Name")]
+        public string Username { get; set; }
+        [Required]
+        public Guid ActivationCode { get; set; }
+
+        [Required(ErrorMessage = "Password required")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [Required(ErrorMessage = "Confirm Password required")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm Password")]
+        [Compare("Password", ErrorMessage = "Error : Confirm password does not match with password")]
+        public string ConfirmPassword { get; set; }
+
+        
     }
 }

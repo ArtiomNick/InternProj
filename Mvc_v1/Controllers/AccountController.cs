@@ -109,6 +109,7 @@ namespace Mvc_v1.Controllers
                         LastName = registrationView.LastName,
                         Email = registrationView.Email,
                         Password = registrationView.Password,
+                        IsActive = true,
                         ActivationCode = Guid.NewGuid(),
                     };
 
@@ -117,8 +118,8 @@ namespace Mvc_v1.Controllers
                 }
 
                 //Verification Email
-                VerificationEmail(registrationView.Email, registrationView.ActivationCode.ToString());
-                messageRegistration = "Your account has been created successfully. ^_^";
+                //VerificationEmail(registrationView.Email, registrationView.ActivationCode.ToString());
+                messageRegistration = "Your account has been created successfully.";
                 statusRegistration = true;
             }
             else
