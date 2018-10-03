@@ -14,5 +14,7 @@ namespace Domain.Dto
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
         public string Subject { get; set; }
+        public int NumberOfAttendants { get; set; }
+        public ICollection<string> ListOfNames { get; set; } = new List<string>();
     }
 }

@@ -49,7 +49,10 @@ namespace Mvc_v1.Helpers
                 th.InnerHtml = _helper.DisplayName(column.ToString()).ToString();
                 tableHeader.AddInnerTag(th);
             }
-            table.AddInnerTag(tableHeader);
+            var thf = new TagBuilder("th");
+            tableHeader.AddInnerTag(thf);
+
+
 
             foreach (var model in _source)
             {
@@ -63,6 +66,11 @@ namespace Mvc_v1.Helpers
                     };
                     tableRow.AddInnerTag(td);
                 }
+                var tdf = new TagBuilder("td")
+                {
+                    InnerHtml = "Edit"
+                };
+                tableRow.AddInnerTag(tdf);
                 table.AddInnerTag(tableRow);
             }
 
