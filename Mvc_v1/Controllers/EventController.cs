@@ -8,34 +8,35 @@ using System.Web;
 using System.Web.Mvc;
 using DataAccessLayer;
 using Domain;
+using Mvc_v1.Models;
 using Repository;
+using ServiceLayer;
 
 namespace Mvc_v1.Controllers
 {
     public class EventController : Controller
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
-
+        private readonly IServiceEvent service;
+        public EventController(IServiceEvent serviceEvent)
+        {
+            this.service = serviceEvent;
+        }
         // GET: Event
         public ActionResult Index()
         {
-            var events = unitOfWork.EventRepository.GetAll<Event>();
-            return View(events);
+            var eventDtos = service.GetAllEvents();
+            return View(eventDtos);
         }
 
         // GET: Event/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(long id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            Event @event = unitOfWork.EventRepository.GetById<Event>(id);
-            if (@event == null)
+            var evnt = service.GetEventDto(id);
+            if (evnt == null)
             {
                 return HttpNotFound();
             }
-            return View(@event);
+            return View(evnt);
         }
 
         // GET: Event/Create
@@ -45,66 +46,66 @@ namespace Mvc_v1.Controllers
         }
 
         // POST: Event/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,EventName,EventDate,StartTime,EndTime,Subject")] Event @event)
+        public ActionResult Create(/*[Bind(Include = "Id,EventName,EventDate,StartTime,EndTime,Subject")]*/ EventModel model)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.EventRepository.Create(@event);
-                unitOfWork.Save();
+                var evnt = new Event(model.EventName, model.EventDate, model.StartTime, model.EndTime, model.Subject);
+
+                service.CreateEvent(evnt);
                 return RedirectToAction("Index");
             }
 
-            return View(@event);
+            return View(model);
         }
 
         // GET: Event/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(long id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            Event @event = unitOfWork.EventRepository.GetById<Event>(id);
-            if (@event == null)
+            var evnt = service.GetEvent(id);
+            if (evnt == null)
             {
                 return HttpNotFound();
             }
-            return View(@event);
+            var eventModel = new EventModel
+            {
+                Id = evnt.Id,
+                EventName = evnt.EventName,
+                EventDate = evnt.EventDate,
+                StartTime = evnt.StartTime,
+                EndTime = evnt.EndTime,
+                Subject = evnt.Subject
+            };
+
+            return View(eventModel);
         }
 
         // POST: Event/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,EventName,EventDate,StartTime,EndTime,Subject")] Event @event)
+        public ActionResult Edit(/*[Bind(Include = "Id,EventName,EventDate,StartTime,EndTime,Subject")]*/ EventModel model)
         {
-            if (ModelState.IsValid)
+            if(ModelState.IsValid)
             {
-                unitOfWork.EventRepository.Update(@event);
-                unitOfWork.Save();
+                var evnt = new Event(model.EventName, model.EventDate, model.StartTime, model.EndTime, model.Subject);
+                service.EditEvent(evnt, model.Id);
+
                 return RedirectToAction("Index");
             }
-            return View(@event);
+            return View(model);
         }
 
         // GET: Event/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(long id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            Event @event = unitOfWork.EventRepository.GetById<Event>(id);
-            if (@event == null)
+            var eventDto = service.GetEventDto(id);
+            if (eventDto == null)
             {
                 return HttpNotFound();
             }
-            return View(@event);
+            return View(eventDto);
         }
 
         // POST: Event/Delete/5
@@ -112,16 +113,11 @@ namespace Mvc_v1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Event @event = unitOfWork.EventRepository.GetById<Event>(id);
-            unitOfWork.EventRepository.Delete(@event);
-            unitOfWork.Save();
+            var evnt = service.GetEvent(id);
+            service.DeleteEvent(evnt);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            unitOfWork.Dispose();
-            base.Dispose(disposing);
-        }
+
     }
 }

@@ -17,8 +17,8 @@ namespace DataAccessLayer.EntityConfiguration
                 .IsRequired()
                 .HasMaxLength(20);
             Property(x => x.EventDate)
-                .IsRequired();
-                //.HasColumnType("datetime2");
+                .IsRequired()
+                .HasColumnType("datetime2");
             Property(x => x.StartTime)
                 .IsRequired();
             Property(x => x.EndTime)

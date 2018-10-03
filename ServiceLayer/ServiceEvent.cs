@@ -9,7 +9,7 @@ using Repository.Interfaces;
 
 namespace ServiceLayer
 {
-    class ServiceEvent : IServiceEvent
+    public class ServiceEvent : IServiceEvent
     {
         private IRepository Repository { get; }
 

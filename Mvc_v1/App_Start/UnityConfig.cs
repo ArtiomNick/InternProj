@@ -50,6 +50,7 @@ namespace Mvc_v1
             container.RegisterType<IServiceShift, ServiceShift>();
             container.RegisterType<IServicePersonalData, ServicePersonalData>();
             container.RegisterType<IServiceSalary, ServiceSalary>();
+            container.RegisterType<IServiceEvent, ServiceEvent>();
 
             //container.RegisterType<ICollection, List<Role>>();
 
