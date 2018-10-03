@@ -82,6 +82,27 @@ namespace ServiceLayer
             return employees.ToList();
         }
 
+        public IEnumerable<EmployeeDto> GetAllEmployeesQ()
+        {
+            var employees = from e in Repository.GetAll<Employee>()
+                            select new EmployeeDto()
+                            {
+                                Id = e.Id,
+                                FirstName = e.FirstName,
+                                LastName = e.LastName,
+                                Email = e.Email,
+                                DateOfEmployment = e.DateOfEmployment,
+                                DepartmentName =
+                                        (from d in Repository.GetAll<Department>()
+                                         where e.DepartmentId == d.Id
+                                         select d.DepartmentName).First()
+                                //e.Department.DepartmentName
+                            };
+
+
+            return employees;
+        }
+
         public IList<RoleDto> GetAllRoles()
         {
             var roles = from r in Repository.GetAll<Role>()

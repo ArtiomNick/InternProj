@@ -15,8 +15,6 @@ namespace Mvc_v1.Controllers
 {
     public class EmployeeGridController : Controller
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
-
         private readonly IServiceEmployee service;
         public EmployeeGridController(IServiceEmployee serviceEmployee)
         {
@@ -32,10 +30,5 @@ namespace Mvc_v1.Controllers
 
 
 
-        protected override void Dispose(bool disposing)
-        {
-            unitOfWork.Dispose();
-            base.Dispose(disposing);
-        }
     }
 }

@@ -17,5 +17,7 @@ namespace ServiceLayer
         Employee GetEmployee(long id);
         IList<RoleDto> GetAllRoles();
 
+        IEnumerable<EmployeeDto> GetAllEmployeesQ();
+
     }
 }
