@@ -97,6 +97,8 @@ namespace Mvc_v1.Controllers
             return View(model);
         }
 
+        
+
         // GET: Event/Delete/5
         public ActionResult Delete(long id)
         {
@@ -117,6 +119,7 @@ namespace Mvc_v1.Controllers
             service.DeleteEvent(evnt);
             return RedirectToAction("Index");
         }
+
 
 
     }
